@@ -71,8 +71,9 @@ public class MatrixReader {
 						}
 						
 					}else {	//non numeric
-						this.isValidM1 = isValidM1.isValidM1();
+						
 						System.out.println("\nCheck the input file. Error occured. \nInvalid char or diffence between the given size and the actual size of the matrix");
+						this.isValidM1 = isValidM1.isValidM1();
 					}				
 					
 				}

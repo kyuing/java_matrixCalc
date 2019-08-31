@@ -10,7 +10,7 @@ public class SizeReader {
 	private boolean isValidRow;
 	private boolean isValidCol;
 	private boolean isValidSizeM1;
-	protected boolean isValidActualSizeM1;
+//	protected boolean isValidActualSizeM1;
 	
 	
 	public SizeReader(String fileName) {
@@ -58,6 +58,7 @@ public class SizeReader {
 			br = new BufferedReader(new FileReader(fileName));	//set br to read from the file path.			
 			
 			tempLine = br.readLine();	// read line 0
+			System.out.println("________________________________________________________________________");
 			System.out.println("\nThe size of matrix 1: " + tempLine);
 			
 			input = tempLine.trim().split(" ");	//get the line splited using .split() and store in into input[]	
@@ -70,7 +71,8 @@ public class SizeReader {
 					for (int i=0; i<input.length; i++) {
 						//store row size and column size using for loop
 					}
-					System.out.println("Row size of the matrix 1 stored from " + fileName + " is: " + input[0]);	//print row size
+					
+					System.out.println("\nRow size of the matrix 1 stored from " + fileName + " is: " + input[0]);	//print row size
 					inputToReturn = Integer.parseInt(input[0]);	//convert a string-based number of the input array into an actual number.
 					
 			}else {	//valid row of matrix 1
@@ -114,7 +116,7 @@ public class SizeReader {
 					for (int i=0; i<input.length; i++) {
 						//store row size and column size using for loop
 					}
-					System.out.println("Column size of the matrix 1 stored from " + fileName + " is: " + input[1]);	//print row size
+					System.out.println("\nColumn size of the matrix 1 stored from " + fileName + " is: " + input[1]);	//print row size
 					inputToReturn = Integer.parseInt(input[1]);	//convert a string-based number of the input array into an actual number.
 					
 			}else {	//valid row of matrix 1

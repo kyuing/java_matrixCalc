@@ -8,11 +8,12 @@ public class Boolean {
 	Scanner sc;
 	private String fileName;
 	private boolean isValidRow;
-	private boolean isValidCol;
-//	private boolean isValidSizeM1;
+	private boolean isValidCol;;
 	private boolean isValidActualSizeM1;
+	private boolean isValidActualSizeM2;
 	private boolean isValidM1;
-	protected boolean isAllValidM1;
+	private boolean isValidM2;
+
 	
 	
 //	public Boolean() {
@@ -28,10 +29,10 @@ public class Boolean {
 		this.isValidRow = false;
 		this.isValidCol = false;
 		this.isValidM1 = false;
+		this.isValidM2 = false;
 		this.fileName = fileName;
-//		this.isValidSizeM1 = false;
 		this.isValidActualSizeM1 = false;
-//		this.isAllValidM1 = false;
+		this.isValidActualSizeM2 = false;
 		
 	}
 	
@@ -50,9 +51,19 @@ public class Boolean {
 		return this.isValidActualSizeM1; 
 	}
 	
+	public boolean isValidActualSizeM2() {
+		//boolean getter		
+		return this.isValidActualSizeM2; 
+	}
+	
 	public boolean isValidM1() {
 		//boolean getter		
 		return this.isValidM1; 
+	}
+	
+	public boolean isValidM2() {
+		//boolean getter		
+		return this.isValidM2; 
 	}
 	
 	public boolean rowValidator(String[] passed_input) {
@@ -126,6 +137,45 @@ public class Boolean {
 		
 	}
 	
+	public boolean m2ActualSizeValidator(int passed_m2Rows, int passed_m2Cols) {
+		
+		String skip=null, a_line = null;	//local level string variables
+		String[] tempCol = null;	//a local level an array variable
+		int actualMatrixSizeCounter = 0;	//initialize it as 0
+		
+		try {	//try-catch in case there is errors
+			sc = new Scanner(new FileReader(fileName));	//set br to read from the file path.
+				
+				//skip matrix 1, the sign @ and the size of matrix 2
+				while ((skip = sc.nextLine()) !=null) {	//while sc is not null
+					if (skip.equals("@")) {	//if 'skip' is equal to @
+						skip = sc.nextLine(); //skip the size of matrix 2
+						break;	//break while loop
+					}
+				}
+				
+				//now, check the actual size of the matrix 2 by reading row and col actually
+				while (sc.hasNextLine()) {	//while sc has next line
+					a_line = sc.nextLine();	//read matrix 2
+						tempCol = a_line.trim().split(" ");	//check actual column size: trim and split input. By .split(), we find how mny cols are there
+						actualMatrixSizeCounter++;	//check actual row size: count rows. by counting a line each, we find how many rows are there
+				}			
+				sc.close();				
+		} catch (Exception e) {	//catch error			
+			System.out.println("\nerror found while checking actual size of matrix 2");
+		}
+		
+		if ((actualMatrixSizeCounter != passed_m2Rows) || (tempCol.length != passed_m2Cols)){	//if actual row size or column size is not equal to the given size
+			
+			System.out.println("actual size of the matrix which is being read does not match with the given row size.");
+			return false;	//return false
+			
+		}else {				
+			this.isValidActualSizeM2 = true;
+			return this.isValidActualSizeM2;
+		}	
+	}
+
 	public boolean m1Validator(String passed_tempLine) {	
 		
 		String pattern_general, pattern_2X2, pattern_3X3;	//local level string variables
@@ -143,7 +193,29 @@ public class Boolean {
 				return this.isValidM1;	//return true
 
 			}else {	//false 
-				System.out.println("\ninvalid input Found from matrix 1 (most like charactor)");
+				System.out.println("\ninvalid input Found while reading the current matrix  (most like charactor)");
+				return false;
+			}
+	}
+	
+	public boolean m2Validator(String passed_tempLine) {	
+		
+		String pattern_general, pattern_2X2, pattern_3X3;	//local level string variables
+		pattern_general = "([\\-?\\d+\\.?\\d+?\\s?])+";	//(-) numeric, decimal
+		pattern_2X2 = "^\\-?\\d+\\.?\\d+?\\s\\-?\\d+\\.?\\d+?$";	//(-) numeric, decimal 2 2 size
+		pattern_3X3 = "^\\-?\\d+\\.?\\d+?\\s\\-?\\d+\\.?\\d+?\\s\\-?\\d+\\.?\\d+?$";	//(-) numeric, decimal 3 3 size
+		
+		boolean _general = Pattern.matches(pattern_general, passed_tempLine);	//set pattern of general
+		boolean _2X2 = Pattern.matches(pattern_2X2, passed_tempLine);	//set pattern of 2 2
+		boolean _3X3 = Pattern.matches(pattern_3X3, passed_tempLine);	//set pattern of 3 3
+		
+			if ((_general == true) || (_2X2 == true) || (_3X3 == true)) {	//if one of those true,
+				
+				this.isValidM2 = true;
+				return this.isValidM2;	//return true
+
+			}else {	//false 
+				System.out.println("\ninvalid input Found while reading the current matrix  (most like charactor)");
 				return false;
 			}
 	}
