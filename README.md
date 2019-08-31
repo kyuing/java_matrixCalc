@@ -45,7 +45,7 @@
    - write the answer to a file
 
 5. The objective of this review is to apply instance & inheritance approach to the program
-   So, you can create as many class as you want as far as they are based on instance or inheritance approach.
+   So, you can create as many classes as you want as far as they are based on instance or inheritance approach.
    
 
 
