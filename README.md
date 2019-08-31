@@ -4,6 +4,7 @@
 1. Input
    - read matrix input from file (txt)
      the file should look like;
+     
      2 2 <--- two row, two column 
      1 2 <--- data for row 1, separated by a space
      3 4 <--- data for row 2, separated by a space
