@@ -61,6 +61,12 @@ public class MatrixReader {
 					tempLine = br.readLine();	//read row. line 1
 	
 					if (isValidM1.m1Validator(tempLine)) {	//if matrix 1 is numeric,
+						//this will check a line of matrix.
+						//let's say, 1st line is false and 2nd line is true
+						//if so, this.isValidM1 will return true in final
+						//thus, if there is false, this for loop must be stopped.
+						
+						
 						this.isValidM1 = isValidM1.isValidM1();
 						
 						line = tempLine.trim().split(" ");	//trim and split input
@@ -74,12 +80,15 @@ public class MatrixReader {
 						
 						System.out.println("\nCheck the input file. Error occured. \nInvalid char or diffence between the given size and the actual size of the matrix");
 						this.isValidM1 = isValidM1.isValidM1();
+						break;	//terminate for loop
+						
 					}				
 					
 				}
 			}else {	//actual size of matrix1 is not equal to the given size
 				System.out.println("actual size of matrix 1 does not match with the given row size. Check input file again.");
 				isValidActualSizeM1 = m1ActualSizeValidator.isValidActualSizeM1();
+				
 			}
 
 		}catch (NumberFormatException nfe) {	//number format is wrong

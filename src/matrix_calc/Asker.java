@@ -53,7 +53,8 @@ public class Asker {
 		
 		String input = "";	//a local level string variable and initialize as null
 		sc = new Scanner(System.in);	//set scanner
-			
+//		sc.reset();
+		
 			System.out.println("\nCAREFULLY ONLY enter file name EXCEPT extension that you would like to read \n(note that if you do want to read your own txt file, you should put your file in the same folder in advance)");	//prompt .txt file options
 			
 			try {//try-chatch in case there error
@@ -73,6 +74,7 @@ public class Asker {
 		boolean isValidNum = false;
 		String input = null;	//a local level string variable and initialize as null
 		sc = new Scanner(System.in);	//set scanner
+//		sc.reset();
 		
 		do {		//do	
 			System.out.println("___________________________________________________________\nIt is thought that you are given FOUR sample .txt files: \n*REMEMBER that the input files MUST be in the same folder*"
@@ -97,5 +99,40 @@ public class Asker {
 			}
 		}while (!isValidNum); //while input is not one of 1-5
 		return input.trim();	//return input
+	}
+	
+	public int askUserChoice() {
+		
+		boolean isValidN;	//a local level boolean viable
+		int input = 0;	//declare a local level variable and initialize it as 0.
+		sc = new Scanner(System.in);	//set scanner to get input from user
+		
+		do {	//start do-while loop
+			System.out.println("\n" + "_______________________________________________________________________\nenter one of two choices below to output the result to a file: \n1: output to a file named answer.txt "
+					+ "\n\n(NOTE that answer.txt will contain ONLY one current result of any calculation "
+					+ "\nthat means, if the program keeps calcualting after a calculation, \nthe previous answer stored will be replaced with a current result of any calulation."
+					+ "\n\nIf you wanted to have a specified result file each, \nit is recommended to choose an option below so that an output can be stored individually)"
+					+ "\n\n2: output to a file with the a file name specified individually");	//prompt it
+			try {
+				input = sc.nextInt();	//scan the input.
+				if ((input == 1) || (input == 2)) { //if input is either 1 or 2,
+					
+					isValidN = true;	//number input is valid.
+					
+				}else {	//wrong input
+										
+					isValidN = false;
+				}				
+			} catch (Exception e) {
+				//display error message. it is possible to get any error. 
+				System.out.println("Input must be numeric and Only either 1 or 2 is allowed. try again");	//invalid number
+				isValidN = false;	//number input is invalid.
+				String pass = sc.nextLine();	
+				//if variable type is int, its function of is to skip invalid string-based input to keep asking a valid number input from user(it happens sometimes) one by one loop.
+				//without this line, do-while loop might never stop. 
+			} 
+		} while (!isValidN);	//do-while loop keeps going while input is not valid input.
+		
+		return input;	//return a numeric value only.
 	}
 }

@@ -78,6 +78,7 @@ public class MatrixReader2 {
 									//matrix 2 is not numeric
 									System.out.println("\nCheck the input file. Error occured. \nInvalid char or diffence between the given size and the actual size of the matrix");
 									this.isValidM2 = isValidM2.isValidM2();
+									break;	//terminate for loop
 								}
 									
 							}

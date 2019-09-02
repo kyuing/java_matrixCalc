@@ -13,6 +13,9 @@ public class Boolean {
 	private boolean isValidActualSizeM2;
 	private boolean isValidM1;
 	private boolean isValidM2;
+	private boolean isFinalM1;
+	private boolean isFinalM2;
+	private boolean isAllValidM;
 
 	
 	
@@ -36,6 +39,12 @@ public class Boolean {
 		
 	}
 	
+	public Boolean(boolean isFinalM1, boolean isFinalM2) {
+		// TODO Auto-generated constructor stub
+		this.isFinalM1 = isFinalM1;
+		this.isFinalM2 = isFinalM2;
+	}
+
 	public boolean isValidRow() {
 		//boolean getter
 		return this.isValidRow;
@@ -66,6 +75,16 @@ public class Boolean {
 		return this.isValidM2; 
 	}
 	
+	public boolean isAllValidM() {
+		//boolean getter
+		if ((this.isFinalM1 == true) && (this.isFinalM2 == true)) {
+			this.isAllValidM = true;
+		}else {
+			this.isAllValidM = false;
+		}
+		return this.isAllValidM;
+	}
+	
 	public boolean rowValidator(String[] passed_input) {
 		
 		if ((passed_input.toString() != null)) { //if not null
@@ -77,11 +96,13 @@ public class Boolean {
 			
 			}else {
 				System.out.println("string or charactor found in row size of matrix 1");
-				return false;
+				this.isValidRow = false;
+				return this.isValidRow;
 			}
 		}else {
 			System.out.println("unxpected error happened. null can be retunred");
-			return false;
+			this.isValidRow = false;
+			return this.isValidRow;
 		}
 	}
 	
@@ -96,11 +117,13 @@ public class Boolean {
 			
 			}else {
 				System.out.println("string or charactor found in row size of matrix 1");
-				return false;
+				this.isValidCol = false;
+				return this.isValidCol;
 			}
 		}else {
 			System.out.println("unxpected error happened. null can be retunred");
-			return false;
+			this.isValidCol = false;
+			return this.isValidCol;
 		}
 	}
 	
@@ -127,7 +150,8 @@ public class Boolean {
 				if ((actualMatrixSizeCounter != passed_m1Rows) || (tempCol.length != passed_m1Cols)){	//if actual row size or column size is not equal to the given size
 					
 					System.out.println("either actual row size or column size of matrix 1 does not match with the given size.");
-					return false;	//return false
+					this.isValidActualSizeM1 = false;
+					return this.isValidActualSizeM1;
 					
 				}else {	
 					
@@ -168,7 +192,8 @@ public class Boolean {
 		if ((actualMatrixSizeCounter != passed_m2Rows) || (tempCol.length != passed_m2Cols)){	//if actual row size or column size is not equal to the given size
 			
 			System.out.println("actual size of the matrix which is being read does not match with the given row size.");
-			return false;	//return false
+			this.isValidActualSizeM2 = false;
+			return this.isValidActualSizeM2;
 			
 		}else {				
 			this.isValidActualSizeM2 = true;
@@ -191,10 +216,12 @@ public class Boolean {
 				
 				this.isValidM1 = true;
 				return this.isValidM1;	//return true
+//				return true;
 
 			}else {	//false 
 				System.out.println("\ninvalid input Found while reading the current matrix  (most like charactor)");
-				return false;
+				this.isValidM1 = false;
+				return this.isValidM1;
 			}
 	}
 	
@@ -213,10 +240,12 @@ public class Boolean {
 				
 				this.isValidM2 = true;
 				return this.isValidM2;	//return true
+//				return true;
 
 			}else {	//false 
 				System.out.println("\ninvalid input Found while reading the current matrix  (most like charactor)");
-				return false;
+				this.isValidM2 = false;
+				return this.isValidM2;
 			}
 	}
 }

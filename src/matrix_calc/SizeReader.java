@@ -111,7 +111,7 @@ public class SizeReader {
 			if (colValidator.colValidator(input)) {	//if row of matrix 1 is not valid
 
 				isValidCol = colValidator.isValidCol();
-				isValidCol = true;
+//				isValidCol = true;
 			
 					for (int i=0; i<input.length; i++) {
 						//store row size and column size using for loop
@@ -123,7 +123,7 @@ public class SizeReader {
 				
 				System.out.println("Wrong reading of column size of matrix 1");
 				isValidCol = colValidator.isValidCol();
-				isValidCol = false;
+//				isValidCol = false;
 			}						
 		}catch (NumberFormatException nfe) {
 			//its possible that there is an other input than numbers in the file.

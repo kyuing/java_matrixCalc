@@ -2,7 +2,7 @@ package matrix_calc;
 
 public class Input {
 	
-	String fileName, menu, txtInput, inputFileName;
+	private String fileName, menu, txtInput, inputFileName;
 	
 	public String fileSelector() {
 		
