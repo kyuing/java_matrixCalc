@@ -1,9 +1,8 @@
 package matrix_calc;
 
-public class Add extends Calc_manager {
+public class Sub extends Calc_manager {
 	
-	
-	Add(double[][] operator, double[][] matrix1, double[][] matrix2) {
+	Sub(double[][] operator, double[][] matrix1, double[][] matrix2) {
 		
 		super(operator, matrix1, matrix2);
 	}
@@ -11,18 +10,18 @@ public class Add extends Calc_manager {
 	@Override
 	public double[][] calc() {
 		
-		//calc addition
+		//calc subtraction
 		for (int i=0; i<this.matrix1.length; i++) {
 					
 			for (int j=0; j<this.matrix1[i].length; j++) {
 						
-				operator[i][j] = this.matrix1[i][j] + this.matrix2[i][j];  //do addition
+				operator[i][j] = this.matrix1[i][j] - this.matrix2[i][j];  
 			}	
 		}
 		
 		
 		//display result
-		System.out.println("\nSum of the two matrices is: ");
+		System.out.println("\nSubtraction of the two matrices is: ");
 		for (int i=0; i<this.matrix1.length; i++) {
 					
 			for (int j=0; j<this.matrix1[i].length; j++) {

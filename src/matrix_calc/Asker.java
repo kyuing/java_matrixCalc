@@ -135,4 +135,45 @@ public class Asker {
 		
 		return input;	//return a numeric value only.
 	}
+	
+	public double askUserN(String promptN) {
+		
+		boolean isValidN;	//a calculation with a n input from user only works in constructor when input is true.
+		String input = "";	//a local level string variable
+		double numInput = 0;	//declare a local level variable and initialize it as 0.
+		sc = new Scanner(System.in);	//set scanner to get input from user
+		
+		do {	//start do-while loop
+			System.out.println("\n" + promptN);	//prompt it
+			try {
+				input = sc.nextLine();	//scan the input.
+				
+				if (input.matches("^\\-?\\d+\\.?\\d*$") && (!input.matches("[a-zA-Z]++")))  { //if positive, negative,  a number or decimal,{	//0	
+					if (!input.matches("^\\-?[0|0+]\\.?[0]*$")) {	//if not any zero,
+		 	
+						isValidN = true;
+						
+					}else {
+						System.out.println("0 can not be a multiplicand or a divisor. Otherwise, wrong inpyt format found  try again");
+						isValidN = false;	//number input is valid.					
+					}				
+				}else {
+					
+					System.out.println("non-numeric found, \nthere is still 0-related input \nOR, unnecessary 0 paddings more than ONE 0 before decimal found.\nex) 01.1 = 1.1 \n\ntry again");
+					isValidN = false;
+				}
+			}catch (Exception e) {
+				//display error message. it is possible to get any error. 
+				System.out.println("Unexpected error occured. try again");
+				isValidN = false;	//number input is invalid.
+				String pass = sc.nextLine();	
+				//it is not in use as the program works well.
+				//if variable type is int or double, its function of is to skip invalid string input to keep asking a valid number input from user(it happens sometimes) one by one loop.
+				//without this line, do-while loop might never stop. 
+				//(here, loop goes with string variable and then its parsed)
+			} 
+		} while (!isValidN);	//do-while loop keeps going while input is not valid input.
+		numInput = Double.parseDouble(input);	//convert string value into double
+		return numInput;	//return a numeric value only.
+	}
 }
