@@ -2,6 +2,7 @@ package matrix_calc;
 
 public class Calc_manager {
 
+	protected int row, col;
 	protected int m1Row, m2Row, m2Col;
 	protected double[][] matrix1, matrix2, singleMatrix, operator;
 	private double[][] placeHolder;
@@ -28,6 +29,18 @@ public class Calc_manager {
 	Calc_manager(double[][] operator, double[][] singleMatrix) {
 		
 		this.operator = operator;
+		this.singleMatrix = singleMatrix;
+	}
+	
+//	Calc_manager(int row, int col) {
+//		
+//		this.row = row;
+//		this.col = col;
+////		this.singleMatrix = singleMatrix;
+//	}
+	
+	Calc_manager(double[][] singleMatrix) {
+		
 		this.singleMatrix = singleMatrix;
 	}
 	

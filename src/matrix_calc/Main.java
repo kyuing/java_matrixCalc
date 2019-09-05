@@ -4,12 +4,13 @@ public class Main {
 
 	private String fileName = null, menu;
 	private int m1Row, m1Col, m2Row, m2Col;
-	private double[][] matrix1, matrix2, addition, subtraction, multiplication, scalarMul, scalarDiv, altMultiplication;
+	private double[][] matrix1, matrix2, addition, subtraction, multiplication, scalarMul, scalarDiv, altMultiplication, inv;
 	private Asker menuAsker = new Asker();
 	private Input fileInput = new Input();
 	private MatrixReader m1Reader ;
 	private MatrixReader2 m2Reader;
 	private Boolean isAllValidM;
+	private boolean isAllvalidMLocal;
 	private boolean isFinalM1, isFinalM2;
 		
 	public Main() {
@@ -17,7 +18,6 @@ public class Main {
 		try {
 			do { //do
 				menu = menuAsker.askUserMenu();	//prompt and ask calculation options to user and return user input to the variable menu
-				boolean isAllvalidMLocal;
 					
 				 if (menu.matches("([1-6])")) {
 					 //read matrix 1
@@ -80,7 +80,7 @@ public class Main {
 					 	 
 					//processing; calculation
 					 try {
-						 //why try-catch with nullPointerException needs to be used here is;
+						 //the reason try-catch with nullPointerException needs to be used here is;
 						 //we are about to start a two matrices calculation.
 						 //any input having nothing or having only one matrix input in a file should be filtered (thrown exception) before moving out to the calculation. 
 						
@@ -146,62 +146,166 @@ public class Main {
 							 }else  {
 								 //(menu.matches("[3|5|6]"))
 								 if ((isFinalM1) || (isFinalM2)) {
-									 
-									if (isFinalM1) {
-												
-										if (menu.equals("3")) {
-											System.out.println("3 clicked");
-											this.scalarMul = new double[this.m1Row][this.m1Col];
-											ScMul scMul = new ScMul(this.scalarMul, this.matrix1);
-											this.scalarMul = scMul.calc();			
-								
-											if (scMul.getN() != 0) {
-												//any zero is filtered at scMul.calc(); except something like -000.00 or 00.00
-												Writer scMulWriter = new Writer(this.scalarMul);
-												scMulWriter.writer();		
-											}else {
-												System.out.println("Can't write the result to a file due to the zero value returned.");
-											}
-										}else if(menu.equals("5")) {
-											System.out.println("5 clicked");
-											this.scalarDiv = new double[this.m1Row][this.m1Col];
-											ScDiv scDiv = new ScDiv(this.scalarDiv, this.matrix1);
-											this.scalarDiv = scDiv.calc();			
+									
+									SingleM_Asker singleMatrixAsker = new SingleM_Asker();
+									if (singleMatrixAsker.askUserChoice() == 1) {
+									
+										if (isFinalM1) {
 											
-											if (scDiv.getN() != 0) {
-												//any zero is filtered at scMul.calc(); except something like -000.00 or 00.00
-												Writer scDivWriter = new Writer(this.scalarDiv);
-												scDivWriter.writer();
+											if (menu.equals("3")) {
+												System.out.println("_______________________________________________________________________________" +
+																	"\nScalar multiplication for matrix 1 is being processed");
+												this.scalarMul = new double[this.m1Row][this.m1Col];
+												ScMul scMul = new ScMul(this.scalarMul, this.matrix1);
+												this.scalarMul = scMul.calc();			
+									
+												if (scMul.getN() != 0) {
+													//any zero is filtered at scMul.calc(); except something like -000.00 or 00.00
+													Writer scMulWriter = new Writer(this.scalarMul);
+													scMulWriter.writer();		
+												}else {
+													System.out.println("Can't write the result to a file due to the zero value returned.");
+												}
+											}else if(menu.equals("5")) {
+												System.out.println("_______________________________________________________________________________" +
+														"\nScalar division for matrix 1 is being processed");
+												this.scalarDiv = new double[this.m1Row][this.m1Col];
+												ScDiv scDiv = new ScDiv(this.scalarDiv, this.matrix1);
+												this.scalarDiv = scDiv.calc();			
 												
+												if (scDiv.getN() != 0) {
+													//any zero is filtered at scMul.calc(); except something like -000.00 or 00.00
+													Writer scDivWriter = new Writer(this.scalarDiv);
+													scDivWriter.writer();
+													
+												}else {
+													System.out.println("Can't write the result to a file due to the zero value returned.");
+												}			
 											}else {
-												System.out.println("Can't write the result to a file due to the zero value returned.");
-											}			
+												//menu is 6
+												System.out.println("_______________________________________________________________________________" +
+														"\nInverse for matrix 1 is being processed");
+												
+												if ((m1Row == 2) && (m1Col == 2)) {
+													inv = new double[m1Row][m1Col];
+													Inverse2X2 inverse2X2 =  new Inverse2X2(inv, this.matrix1);
+																						
+													if (inverse2X2.getDetA() != 0) {
+														inv = inverse2X2.calc();
+														Writer inverseWriter = new Writer(this.inv);
+														inverseWriter.writer();
+														
+													}else {
+														System.out.println("_________________________________________________________________________________"
+																+ "\nDeterminant of the matrix 1 is: " + inverse2X2.getDetA());
+														System.out.println("Can't calculate and write the result to a file due to the zero value returned.\nSingular matrix can not have an inverse");
+													}
+													
+												}else if ((m1Row == 3) && (m1Col == 3)) {
+//													System.out.println("inverse 3X3 M1");
+													Inv3X3Manager inverse3X3 =  new Inv3X3Manager(this.matrix1);
+//													Inv3X3Manager inverse3X3 =  new Inv3X3Manager(this.m1Row, this.m1Col);
+													
+													if (inverse3X3.getDet() != 0) {
+														inverse3X3.calc();
+														Writer inverse3X3Writer = new Writer(inverse3X3.getInverse());
+														inverse3X3Writer.writer();
+														
+													}else {
+														//det == 0
+														System.out.println(inverse3X3.getDet());
+														System.out.println("it is impossible to consider the inverse of the matrix with a singular matrix.");
+													}
+													
+												}else {
+													System.out.println("\nnon identical rank found in the mtrix. \nor, the program is not designed to cover inverse whose matrix size > 3X3");
+												}
+												
+											}	
 										}else {
-											//menu is 6
-											System.out.println("6 clicked");
-										}	
+											//isFinalM1 = false;
+											System.out.println("Cant not carry out any calculation proccessing due to invalid input issue in the matrix 1. try again");
+										}
+										
 									}else {
-										//isFinalM1 = false;
-										System.out.println("Cant not carry out any calculation proccessing due to invalid input issue in the matrix 1. try again");
+										//(singleMatrixAsker.askUserChoice() == 2)
+										//(isFinalM2)
+										if (isFinalM2) {
+											
+											if (menu.equals("3")) {
+												System.out.println("_______________________________________________________________________________" +
+														"\nScalar multiplication for matrix 2 is being processed");
+												this.scalarMul = new double[this.m2Row][this.m2Col];
+												ScMul scMul = new ScMul(this.scalarMul, this.matrix2);
+												this.scalarMul = scMul.calc();			
+									
+												if (scMul.getN() != 0) {
+													//any zero is filtered at scMul.calc(); except something like -000.00 or 00.00
+													Writer scMulWriter = new Writer(this.scalarMul);
+													scMulWriter.writer();		
+												}else {
+													System.out.println("Can't write the result to a file due to the zero value returned.");
+												}
+											}else if(menu.equals("5")) {
+												System.out.println("_______________________________________________________________________________" +
+														"\nScalar division for matrix 2 is being processed");
+												this.scalarDiv = new double[this.m2Row][this.m2Col];
+												ScDiv scDiv = new ScDiv(this.scalarDiv, this.matrix2);
+												this.scalarDiv = scDiv.calc();			
+												
+												if (scDiv.getN() != 0) {
+													//any zero is filtered at scMul.calc(); except something like -000.00 or 00.00
+													Writer scDivWriter = new Writer(this.scalarDiv);
+													scDivWriter.writer();
+													
+												}else {
+													System.out.println("Can't write the result to a file due to the zero value returned.");
+												}			
+											}else {
+												//menu is 6
+												System.out.println("_______________________________________________________________________________" +
+														"\nInverse for matrix 2 is being processed");
+												if ((m1Row == 2) && (m1Col == 2)) {
+													inv = new double[m2Row][m2Col];
+													Inverse2X2 inverse2X2 =  new Inverse2X2(inv, this.matrix2);
+																						
+													if (inverse2X2.getDetA() != 0) {
+														inv = inverse2X2.calc();
+														Writer inverseWriter = new Writer(this.inv);
+														inverseWriter.writer();
+														
+													}else {
+														System.out.println("_________________________________________________________________________________"
+																+ "\nDeterminant of the matrix 2 is: " + inverse2X2.getDetA());
+														System.out.println("Can't calculate and write the result to a file due to the zero value returned.\nSingular matrix can not have an inverse");
+													}
+													
+												}else if ((m1Row == 3) && (m1Col == 3)) {
+													Inv3X3Manager inverse3X3 =  new Inv3X3Manager(this.matrix2);
+													
+													if (inverse3X3.getDet() != 0) {
+														inverse3X3.calc();
+														Writer inverse3X3Writer = new Writer(inverse3X3.getInverse());
+														inverse3X3Writer.writer();
+														
+													}else {
+														//det == 0
+														System.out.println(inverse3X3.getDet());
+														System.out.println("it is impossible to consider the inverse of the matrix with a singular matrix.");
+													}
+													
+												}else {
+													System.out.println("\nnon identical rank found in the mtrix. \nor, the program is not designed to cover inverse whose matrix size > 3X3");
+												}
+												
+											}	
+										}else {
+											//isFinalM1 = false;
+											System.out.println("Cant not carry out any calculation proccessing due to invalid input issue in the matrix 2. try again");
+										}
+										
 									}
 									
-									//(isFinalM2)
-									if (isFinalM2) {
-										
-										if (menu.equals("3")) {
-											System.out.println("3 clicked M2");
-													
-										}else if(menu.equals("5")) {
-											System.out.println("5 clicked M2");
-													
-										}else {
-											//menu is 6
-											System.out.println("6 clicked M2");
-										}
-									}else {
-										//isFinalM1 = false;
-										System.out.println("Cant not carry out any calculation proccessing due to invalid input issue in the matrix 2. try again");
-									}	
 								 }else {
 									 System.out.println("Cant not carry out any calculation proccessing due to invalid input issue in one of the matrices. try again");
 								 }
@@ -221,6 +325,7 @@ public class Main {
 						}
 					 }catch (NullPointerException npe) {
 						 System.out.println("the current file does not have proper input, have input partly or have nothing. check the file again or choose another file");
+						 this.isAllvalidMLocal = false;
 					 }
 				 }else {
 					 System.out.println("Bye Bye");

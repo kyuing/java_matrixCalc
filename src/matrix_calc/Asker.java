@@ -9,6 +9,10 @@ public class Asker {
 	BufferedReader br;
 	Scanner sc;
 	
+	Asker() {
+		
+	}
+	
 	public String askUserMenu() {
 		
 		boolean isValidOption;	//menu selection in constructor only works when input is true.

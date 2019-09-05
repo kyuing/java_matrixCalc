@@ -64,7 +64,7 @@ public class Writer {
 				
 				//write to file
 				try {	//use try-catch in case there some errors
-					BufferedWriter bw = new BufferedWriter(new FileWriter(nameToFile + ".txt", true));
+					BufferedWriter bw = new BufferedWriter(new FileWriter(nameToFile + ".txt", true));	//append
 					bw.write(result.length + " " + result.length);
 					bw.newLine();	// a new line for answers
 					for (int i=0; i<result.length; i++) {	//build rows
